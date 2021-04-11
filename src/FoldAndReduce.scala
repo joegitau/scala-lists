@@ -60,6 +60,29 @@ object FoldAndReduce extends App {
 
   println(s"sum for foldLeft: $sumFoldLeft while sum for reduceLeft: $sumReduceLeft2")
 
+  ///////////////////////////
+  // FOLD ON SCALA OPTION
+  //////////////////////////
+  /*
+    NOTE: Fold works differently for a scala Option.
+    - Fold on scala Option, Option.fold(defaultValue)(f) is EQUAL TO  map(f).getOrElse(defaultValue)
+    - As with sequences, the 'seed value' provided acts as the default value to be used if Option returns None
+      - If option is a None, the defaultValue is returned, and the function f is ignored.
+        Alternatively, if option is a Some, defaultValue is ignored, and the function f is applied to the option value.
+   */
+
+  def f(a: Int): Int = a + 1
+
+  val a = Some(14)
+  val b = a.fold(20)(f) // the defaultValue (20) is ignored, as a has a value - thus function f is run - resulting in 15
+  println(b)
+
+  // NOTE: When fold is used on an empty list, it is analogous to calling fold on a None.
+
+  val emptyList = List()
+  val foldOption = emptyList.fold(10)(_ + _)
+  println(foldOption) // returns 10 since list is empty thus the function is ignored and thus the default value is returned
+
 
   //////////////////
   // SCAN METHODS
